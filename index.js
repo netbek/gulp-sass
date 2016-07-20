@@ -37,6 +37,12 @@ var gulpSass = function gulpSass(options, sync) {
     opts = clonedeep(options || {});
     opts.data = file.contents.toString();
 
+    if (opts.preprocess) {
+      opts.preprocess.forEach(function (fn) {
+        opts.data = fn(opts.data, file);
+      });
+    }
+
     // we set the file path here so that libsass can correctly resolve import paths
     opts.file = file.path;
 
